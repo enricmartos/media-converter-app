@@ -1,0 +1,6 @@
+rootProject.name = 'media-converter-spring'
+include 'configuration-layer'
+include 'web-layer'
+include 'service-layer'
+include 'service-layer'
+

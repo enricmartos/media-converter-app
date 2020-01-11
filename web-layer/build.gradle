@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':service-layer')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}

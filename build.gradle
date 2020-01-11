@@ -1,0 +1,29 @@
+plugins {
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+subprojects {
+	group = 'org.emartos'
+	version = '0.0.1-SNAPSHOT'
+
+	apply plugin: 'java'
+	apply plugin: 'io.spring.dependency-management'
+//	apply plugin: 'java-library'
+
+	repositories {
+		jcenter()
+	}
+
+	dependencyManagement {
+		imports {
+			//This allows us to specify version numbers in a single place
+			// instead of spreading them over multiple modules
+			mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.7.RELEASE")
+		}
+	}
+
+	compileJava {
+		sourceCompatibility = 1.8
+	}
+
+}
