@@ -3,4 +3,5 @@ include 'configuration-layer'
 include 'web-layer'
 include 'service-layer'
 include 'service-layer'
+include 'model-layer'
 
