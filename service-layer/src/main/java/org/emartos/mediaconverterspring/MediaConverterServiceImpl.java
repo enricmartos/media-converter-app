@@ -24,7 +24,6 @@ public class MediaConverterServiceImpl implements MediaConverterService {
 
     @Override
     public byte[] resizeImage(byte[] image, Integer width, Integer height) {
-        LOGGER.log(Level.INFO, "Init resize service");
         try {
             StringBuilder tmpFilename = ConvertUtils.getTmpFilename();
             String inputPath = ROOT_DIR + tmpFilename;

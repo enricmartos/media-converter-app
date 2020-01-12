@@ -4,6 +4,7 @@ package org.emartos.mediaconverterspring.rest.v1;
 import org.emartos.mediaconverterapi.v1.exceptions.BadRequestException;
 import org.emartos.mediaconverterapi.v1.model.ResizeFileUploadForm;
 import org.emartos.mediaconverterspring.MediaConverterService;
+import org.emartos.mediaconverterspring.config.PropertiesConfig;
 import org.emartos.mediaconverterspring.rest.v1.utils.ServiceControllerValidationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -28,11 +29,15 @@ public class MediaConverterServiceController {
     @Autowired
     private MediaConverterService mediaConverterService;
 
+    @Autowired
+    private PropertiesConfig propertiesConfig;
+
     @PostMapping("/image/resize")
     ResponseEntity<Resource> resizeImage(@RequestHeader("apiKey") String apiKey, @RequestParam("file") MultipartFile file,
                                          @RequestParam("width") Integer width, @RequestParam("height") Integer height)
             throws BadRequestException {
         try {
+            validateApiKey(apiKey);
             byte[] image = file.getBytes();
             validateResizeImage(new ResizeFileUploadForm(image, width, height));
             byte[] imageResized = mediaConverterService.resizeImage(image, width, height);
@@ -43,6 +48,12 @@ public class MediaConverterServiceController {
             LOGGER.log(Level.SEVERE, "IO Exception");
         }
         return null;
+    }
+
+    private void validateApiKey(String apiKey) throws BadRequestException {
+        if (apiKey == null || !propertiesConfig.getApiKeys().contains(apiKey)) {
+            throw new BadRequestException("Invalid API key: " + apiKey);
+        }
     }
 
     private void validateResizeImage(ResizeFileUploadForm resizeFileUploadForm) throws BadRequestException {

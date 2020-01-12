@@ -1,5 +1,5 @@
 dependencies {
-    implementation 'com.github.enricmartos:media-converter-api-spring:api-definition-SNAPSHOT'
+    implementation 'com.github.enricmartos:media-converter-api-spring:api-changes-SNAPSHOT'
     implementation project(':service-layer')
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
