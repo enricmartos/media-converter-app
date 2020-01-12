@@ -5,6 +5,8 @@ WORKDIR /home/gradle/src
 RUN gradle build
 
 FROM openjdk:8
+USER root
+RUN apt-get update && apt-get install -y imagemagick
 ENV ARTIFACT_NAME=configuration-layer-0.0.1-SNAPSHOT.jar
 WORKDIR /usr/app/
 #copy artifacts from one stage to the next
