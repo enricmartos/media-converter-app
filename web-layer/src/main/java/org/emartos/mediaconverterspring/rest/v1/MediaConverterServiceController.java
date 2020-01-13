@@ -2,6 +2,7 @@ package org.emartos.mediaconverterspring.rest.v1;
 
 
 import org.emartos.mediaconverterapi.v1.exceptions.BadRequestException;
+import org.emartos.mediaconverterapi.v1.model.FileUploadForm;
 import org.emartos.mediaconverterapi.v1.model.ResizeFileUploadForm;
 import org.emartos.mediaconverterspring.MediaConverterService;
 import org.emartos.mediaconverterspring.config.PropertiesConfig;
@@ -33,7 +34,7 @@ public class MediaConverterServiceController {
     private PropertiesConfig propertiesConfig;
 
     @PostMapping("/image/resize")
-    ResponseEntity<Resource> resizeImage(@RequestHeader("apiKey") String apiKey, @RequestParam("file") MultipartFile file,
+    public ResponseEntity<Resource> resizeImage(@RequestHeader("apiKey") String apiKey, @RequestParam("file") MultipartFile file,
                                          @RequestParam("width") Integer width, @RequestParam("height") Integer height)
             throws BadRequestException {
         try {
@@ -50,6 +51,23 @@ public class MediaConverterServiceController {
         return null;
     }
 
+    @PostMapping("/image/autorotate")
+    public ResponseEntity<Resource> autorotateImage(@RequestHeader("apiKey") String apiKey,
+                                                    @RequestParam("file") MultipartFile file) throws BadRequestException {
+        try {
+            validateApiKey(apiKey);
+            byte[] image = file.getBytes();
+            validateImage(new FileUploadForm(image));
+            byte[] imageAutorotated = mediaConverterService.autorotateImage(image);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("image/jpeg"))
+                    .body(new ByteArrayResource(imageAutorotated));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "IO Exception");
+        }
+        return null;
+    }
+
     private void validateApiKey(String apiKey) throws BadRequestException {
         if (apiKey == null || !propertiesConfig.getApiKeys().contains(apiKey)) {
             throw new BadRequestException("Invalid API key: " + apiKey);
@@ -57,10 +75,15 @@ public class MediaConverterServiceController {
     }
 
     private void validateResizeImage(ResizeFileUploadForm resizeFileUploadForm) throws BadRequestException {
-        new ServiceControllerValidationHelper("ImageOptimizerService")
+        new ServiceControllerValidationHelper("MediaConverterService")
                 .checkValidRange(resizeFileUploadForm.getWidth(), "width")
                 .checkValidRange(resizeFileUploadForm.getHeight(), "height")
                 .checkValidImage(resizeFileUploadForm.getFileData(), "fileData");
+    }
+
+    private void validateImage(FileUploadForm fileUploadForm) throws BadRequestException {
+        new ServiceControllerValidationHelper("MediaConverterService")
+                .checkValidImage(fileUploadForm.getFileData(), "fileData");
     }
 }
 

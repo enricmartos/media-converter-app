@@ -1,4 +1,4 @@
 dependencies {
-    compile group: 'commons-configuration', name: 'commons-configuration', version: '1.10'
+    implementation group: 'commons-configuration', name: 'commons-configuration', version: '1.10'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
