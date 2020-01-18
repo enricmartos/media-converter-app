@@ -9,8 +9,8 @@ jobs:
 
   docker_hub_release:
     env:
-        DOCKER_HUB: ${{ secrets.DOCKER_HUB }}
-        DOCKER_HUB_KEY: ${{ secrets.DOCKER_HUB_KEY }}
+        DOCKER_HUB: ${{ secrets.DOCKER_HUB_USER }}
+        DOCKER_HUB_KEY: ${{ secrets.DOCKER_HUB_PWD }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
