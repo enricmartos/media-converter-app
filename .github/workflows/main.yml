@@ -15,8 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: docker login -u $DOCKER_HUB -p $DOCKER_HUB_KEY
-      - run: docker build . -t enricmartos/media-converter:latest
-      - run: docker push enricmartos/media-converter:latest
+      - run: docker build . -t enricmartos/media-converter-app:latest
+      - run: docker push enricmartos/media-converter-app:latest
 
 
   heroku_release:
