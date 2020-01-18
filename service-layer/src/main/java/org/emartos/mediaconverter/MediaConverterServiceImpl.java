@@ -1,7 +1,7 @@
-package org.emartos.mediaconverterspring;
+package org.emartos.mediaconverter;
 
 
-import org.emartos.mediaconverterspring.utils.ConvertUtils;
+import org.emartos.mediaconverter.utils.ConvertUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package org.emartos.mediaconverterspring.rest.v1.utils;
+package org.emartos.mediaconverter.rest.v1.utils;
 
 
 import org.emartos.mediaconverterapi.v1.exceptions.BadRequestException;

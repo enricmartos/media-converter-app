@@ -1,4 +1,4 @@
-package org.emartos.mediaconverterspring.utils;
+package org.emartos.mediaconverter.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

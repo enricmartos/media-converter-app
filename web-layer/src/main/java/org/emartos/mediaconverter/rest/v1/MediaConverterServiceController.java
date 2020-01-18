@@ -1,12 +1,12 @@
-package org.emartos.mediaconverterspring.rest.v1;
+package org.emartos.mediaconverter.rest.v1;
 
 
 import org.emartos.mediaconverterapi.v1.exceptions.BadRequestException;
 import org.emartos.mediaconverterapi.v1.model.FileUploadForm;
 import org.emartos.mediaconverterapi.v1.model.ResizeFileUploadForm;
-import org.emartos.mediaconverterspring.MediaConverterService;
-import org.emartos.mediaconverterspring.config.PropertiesConfig;
-import org.emartos.mediaconverterspring.rest.v1.utils.ServiceControllerValidationHelper;
+import org.emartos.mediaconverter.MediaConverterService;
+import org.emartos.mediaconverter.config.PropertiesConfig;
+import org.emartos.mediaconverter.rest.v1.utils.ServiceControllerValidationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;

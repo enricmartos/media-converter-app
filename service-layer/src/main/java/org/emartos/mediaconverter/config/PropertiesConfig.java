@@ -1,4 +1,4 @@
-package org.emartos.mediaconverterspring.config;
+package org.emartos.mediaconverter.config;
 
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.ConfigurationException;

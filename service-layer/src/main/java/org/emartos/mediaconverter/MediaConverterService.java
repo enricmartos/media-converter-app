@@ -1,6 +1,4 @@
-package org.emartos.mediaconverterspring;
-
-import org.springframework.stereotype.Service;
+package org.emartos.mediaconverter;
 
 //@Service
 public interface MediaConverterService {

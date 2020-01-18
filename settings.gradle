@@ -1,4 +1,4 @@
-rootProject.name = 'media-converter-spring'
+rootProject.name = 'media-converter'
 include 'configuration-layer'
 include 'web-layer'
 include 'service-layer'
