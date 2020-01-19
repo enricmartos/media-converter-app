@@ -8,11 +8,61 @@ subprojects {
 
 	apply plugin: 'java'
 	apply plugin: 'io.spring.dependency-management'
-//	apply plugin: 'java-library'
 
+	ext {
+		findbugsVersion = '3.0.0'
+		checkstyleVersion = '6.1.1'
+		pmdVersion = '5.3.6'
+	}
 	repositories {
 		jcenter()
 		maven { url 'https://jitpack.io' }
+	}
+
+	//****FINDBUGS****//
+	apply plugin: 'findbugs'
+	findbugs{
+		toolVersion = findbugsVersion
+		findbugsMain.enabled = true
+		findbugsTest.enabled = true
+	}
+
+	//human readable HTML output
+	tasks.withType(FindBugs) {
+		reports {
+			xml.enabled = false
+			html.enabled = true
+		}
+	}
+    //****PMD****//
+	apply plugin: 'pmd'
+	pmd {
+		toolVersion = pmdVersion
+		pmdMain.enabled = true
+		pmdTest.enabled= true
+	}
+	tasks.withType(Pmd){
+		reports{
+			xml.enabled=true
+			html.enabled=true
+		}
+	}
+
+	//****CHECKSTYLE****//
+	apply plugin: 'checkstyle'
+	def configDir = "${project.rootDir}/quality"
+	checkstyle {
+		toolVersion = checkstyleVersion
+		configFile file("$configDir/checkstyle/checkstyle.xml")
+		checkstyleMain.enabled = true
+		checkstyleTest.enabled = true
+	}
+
+	tasks.withType(Checkstyle) {
+		reports {
+			xml.enabled = false
+			html.enabled = true
+		}
 	}
 
 	dependencyManagement {

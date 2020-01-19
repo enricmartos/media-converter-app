@@ -1,12 +1,12 @@
 package org.emartos.mediaconverter.rest.v1;
 
 
-import org.emartos.mediaconverterapi.v1.exceptions.BadRequestException;
-import org.emartos.mediaconverterapi.v1.model.FileUploadForm;
-import org.emartos.mediaconverterapi.v1.model.ResizeFileUploadForm;
 import org.emartos.mediaconverter.MediaConverterService;
 import org.emartos.mediaconverter.config.PropertiesConfig;
 import org.emartos.mediaconverter.rest.v1.utils.ServiceControllerValidationHelper;
+import org.emartos.mediaconverterapi.v1.exceptions.BadRequestException;
+import org.emartos.mediaconverterapi.v1.model.FileUploadForm;
+import org.emartos.mediaconverterapi.v1.model.ResizeFileUploadForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,7 +48,6 @@ public class MediaConverterServiceController {
                     .contentType(MediaType.parseMediaType("image/jpeg"))
                             .body(new ByteArrayResource(imageResized)) :
                     new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "IO Exception");
         }
@@ -64,9 +62,11 @@ public class MediaConverterServiceController {
             byte[] image = file.getBytes();
             validateImage(new FileUploadForm(image));
             byte[] imageAutorotated = mediaConverterService.autorotateImage(image);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType("image/jpeg"))
-                    .body(new ByteArrayResource(imageAutorotated));
+            return imageAutorotated != null ?
+                    ResponseEntity.ok()
+                            .contentType(MediaType.parseMediaType("image/jpeg"))
+                            .body(new ByteArrayResource(imageAutorotated)) :
+                    new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "IO Exception");
         }

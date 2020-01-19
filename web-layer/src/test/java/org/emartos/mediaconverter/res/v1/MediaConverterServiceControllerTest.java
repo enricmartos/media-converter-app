@@ -49,6 +49,7 @@ public class MediaConverterServiceControllerTest {
     //Invalid image resolution
     private static final Integer NEGATIVE_IMG_RESOLUTION= -1;
 
+    private static final String API_KEY_MOCK = "apiKey";
 
     @InjectMocks
     MediaConverterServiceController mediaConverterServiceController;
@@ -61,9 +62,9 @@ public class MediaConverterServiceControllerTest {
     private final ExpectedException thrown = ExpectedException.none();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         List<String> apiKeys = new ArrayList<>();
-        apiKeys.add("apiKey");
+        apiKeys.add(API_KEY_MOCK);
         when(propertiesConfig.getApiKeys()).thenReturn(apiKeys);
     }
 
@@ -72,7 +73,7 @@ public class MediaConverterServiceControllerTest {
     public void testValidImageWithEmptyFile() throws BadRequestException, IOException {
         when(mediaConverterService.resizeImage(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(null);
 
-        ResponseEntity<Resource> response = mediaConverterServiceController.resizeImage("apiKey",
+        ResponseEntity<Resource> response = mediaConverterServiceController.resizeImage(API_KEY_MOCK,
                 getStubValidImage(), VALID_IMG_WIDTH, VALID_IMG_HEIGHT);
 
         Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -82,7 +83,7 @@ public class MediaConverterServiceControllerTest {
     public void testValidImageWithPresentFile() throws BadRequestException, IOException {
         when(mediaConverterService.resizeImage(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(getStubFile());
 
-        ResponseEntity<Resource> response = mediaConverterServiceController.resizeImage("apiKey",
+        ResponseEntity<Resource> response = mediaConverterServiceController.resizeImage(API_KEY_MOCK,
                 getStubValidImage(), VALID_IMG_WIDTH, VALID_IMG_HEIGHT);
 
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -91,20 +92,20 @@ public class MediaConverterServiceControllerTest {
     @Test
     public void testInvalidImageWithInvalidFileData() throws BadRequestException, IOException {
         thrown.expect(BadRequestException.class);
-        mediaConverterServiceController.resizeImage("apiKey", getStubInvalidImage(), VALID_IMG_WIDTH, VALID_IMG_HEIGHT);
+        mediaConverterServiceController.resizeImage(API_KEY_MOCK, getStubInvalidImage(), VALID_IMG_WIDTH, VALID_IMG_HEIGHT);
     }
 
     @Test
     public void testValidImageWithExcessiveResolution() throws BadRequestException, IOException {
         thrown.expect(BadRequestException.class);
-        mediaConverterServiceController.resizeImage("apiKey",
+        mediaConverterServiceController.resizeImage(API_KEY_MOCK,
                 getStubValidImage(), EXCESSIVE_IMG_WIDTH, EXCESSIVE_IMG_HEIGHT);
     }
 
     @Test
     public void testValidImageWithNegativeResolution() throws BadRequestException, IOException {
         thrown.expect(BadRequestException.class);
-        mediaConverterServiceController.resizeImage("apiKey",
+        mediaConverterServiceController.resizeImage(API_KEY_MOCK,
                 getStubValidImage(), NEGATIVE_IMG_RESOLUTION, NEGATIVE_IMG_RESOLUTION);
     }
 
