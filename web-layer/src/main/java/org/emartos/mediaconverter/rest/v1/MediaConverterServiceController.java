@@ -10,6 +10,7 @@ import org.emartos.mediaconverter.rest.v1.utils.ServiceControllerValidationHelpe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,9 +44,12 @@ public class MediaConverterServiceController {
             byte[] image = file.getBytes();
             validateResizeImage(new ResizeFileUploadForm(image, width, height));
             byte[] imageResized = mediaConverterService.resizeImage(image, width, height);
-            return ResponseEntity.ok()
+            return imageResized != null ?
+                    ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType("image/jpeg"))
-                    .body(new ByteArrayResource(imageResized));
+                            .body(new ByteArrayResource(imageResized)) :
+                    new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "IO Exception");
         }
