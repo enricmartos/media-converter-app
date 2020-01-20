@@ -1,6 +1,5 @@
 plugins {
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-//	id  'com.github.spotbugs' version '1.6.10'
 }
 
 subprojects {
@@ -11,7 +10,7 @@ subprojects {
 	apply plugin: 'io.spring.dependency-management'
 
 	ext {
-//		spotbugsVersion = '3.1.12'
+		findbugsVersion = '3.0.0'
 		checkstyleVersion = '6.1.1'
 		pmdVersion = '5.3.6'
 	}
@@ -20,18 +19,21 @@ subprojects {
 		maven { url 'https://jitpack.io' }
 	}
 
-	//****SPOT BUGS****//
-//	spotbugs {
-//		toolVersion = spotbugsVersion
-//	}
-//
-//	//human readable HTML output
-//	tasks.withType(com.github.spotbugs.SpotBugsTask) {
-//		reports {
-//			xml.enabled = false
-//			html.enabled = true
-//		}
-//	}
+//	****FIND BUGS****//
+	apply plugin: 'findbugs'
+	findbugs {
+		findbugsMain.enabled = true
+		findbugsTest.enabled = true
+		toolVersion = findbugsVersion
+	}
+
+	//human readable HTML output
+	tasks.withType(FindBugs) {
+		reports {
+			xml.enabled = false
+			html.enabled = true
+		}
+	}
     //****PMD****//
 	apply plugin: 'pmd'
 	pmd {
