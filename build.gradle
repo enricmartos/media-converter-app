@@ -10,7 +10,7 @@ subprojects {
 	apply plugin: 'io.spring.dependency-management'
 
 	ext {
-		findbugsVersion = '3.0.0'
+//		findbugsVersion = '3.0.0'
 		checkstyleVersion = '6.1.1'
 		pmdVersion = '5.3.6'
 	}
@@ -20,20 +20,20 @@ subprojects {
 	}
 
 //	****FIND BUGS****//
-	apply plugin: 'findbugs'
-	findbugs {
-		findbugsMain.enabled = true
-		findbugsTest.enabled = true
-		toolVersion = findbugsVersion
-	}
-
-	//human readable HTML output
-	tasks.withType(FindBugs) {
-		reports {
-			xml.enabled = false
-			html.enabled = true
-		}
-	}
+//	apply plugin: 'findbugs'
+//	findbugs {
+//		findbugsMain.enabled = true
+//		findbugsTest.enabled = true
+//		toolVersion = findbugsVersion
+//	}
+//
+//	//human readable HTML output
+//	tasks.withType(FindBugs) {
+//		reports {
+//			xml.enabled = false
+//			html.enabled = true
+//		}
+//	}
     //****PMD****//
 	apply plugin: 'pmd'
 	pmd {
