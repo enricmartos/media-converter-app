@@ -54,8 +54,8 @@ subprojects {
 	checkstyle {
 		toolVersion = checkstyleVersion
 		configFile file("$configDir/checkstyle/checkstyle.xml")
-		checkstyleMain.enabled = true
-		checkstyleTest.enabled = true
+		checkstyleMain.enabled = false
+		checkstyleTest.enabled = false
 	}
 
 	tasks.withType(Checkstyle) {

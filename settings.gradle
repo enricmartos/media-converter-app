@@ -1,2 +1,3 @@
 rootProject.name = 'media-converter'
-include 'configuration-layer', 'web-layer', 'service-layer'
+include 'configuration-layer', 'web-layer', 'service-layer', 'functional-tests'
+

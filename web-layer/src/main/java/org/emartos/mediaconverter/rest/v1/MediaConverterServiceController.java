@@ -13,10 +13,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -34,20 +31,28 @@ public class MediaConverterServiceController {
     @Autowired
     private PropertiesConfig propertiesConfig;
 
+    @GetMapping("health-check")
+    public String getHealthCheck() {
+        return "Health check OK";
+    }
+
+    @PostMapping("image/process")
+    public ResponseEntity<Resource> processValues(@RequestHeader("apiKey") String apiKey,
+                                                  @RequestParam("width") Integer width, @RequestParam("height") Integer height) throws BadRequestException  {
+        validateApiKey(apiKey);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+
     @PostMapping("/image/resize")
+//    @RequestMapping(value="/image/resize", method=RequestMethod.POST , consumes= {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<Resource> resizeImage(@RequestHeader("apiKey") String apiKey, @RequestParam("file") MultipartFile file,
                                          @RequestParam("width") Integer width, @RequestParam("height") Integer height)
             throws BadRequestException {
         try {
             validateApiKey(apiKey);
-            byte[] image = file.getBytes();
-            validateResizeImage(new ResizeFileUploadForm(image, width, height));
-            byte[] imageResized = mediaConverterService.resizeImage(image, width, height);
-            return imageResized != null ?
-                    ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType("image/jpeg"))
-                            .body(new ByteArrayResource(imageResized)) :
-                    new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            validateResizeImage(new ResizeFileUploadForm(file.getBytes(), width, height));
+            return buildResponseEntity(mediaConverterService.resizeImage(file.getBytes(), width, height));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "IO Exception");
         }
@@ -59,14 +64,8 @@ public class MediaConverterServiceController {
                                                     @RequestParam("file") MultipartFile file) throws BadRequestException {
         try {
             validateApiKey(apiKey);
-            byte[] image = file.getBytes();
-            validateImage(new FileUploadForm(image));
-            byte[] imageAutorotated = mediaConverterService.autorotateImage(image);
-            return imageAutorotated != null ?
-                    ResponseEntity.ok()
-                            .contentType(MediaType.parseMediaType("image/jpeg"))
-                            .body(new ByteArrayResource(imageAutorotated)) :
-                    new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            validateImage(new FileUploadForm(file.getBytes()));
+            return buildResponseEntity(mediaConverterService.autorotateImage(file.getBytes()));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "IO Exception");
         }
@@ -89,6 +88,14 @@ public class MediaConverterServiceController {
     private void validateImage(FileUploadForm fileUploadForm) throws BadRequestException {
         new ServiceControllerValidationHelper("MediaConverterService")
                 .checkValidImage(fileUploadForm.getFileData(), "fileData");
+    }
+
+    private ResponseEntity<Resource> buildResponseEntity(byte[] imageConverted) {
+        return imageConverted != null ?
+                ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType("image/jpeg"))
+                        .body(new ByteArrayResource(imageConverted)) :
+                new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 
