@@ -1,25 +1,18 @@
 package org.emartos.mediaconverter.functionaltests.v1.model;
 
 
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MediaConverterClient {
@@ -64,13 +57,6 @@ private static final String TEST_IMG_PATH = "functional-tests/src/test/resources
 
         //        String response = healthCheckRequest();
         System.out.println(response);
-    }
-
-    private static MultipartFile getValidImage() throws IOException {
-        File file = new File(TEST_IMG_PATH);
-        FileItem fileItem = new DiskFileItem("file", "text/plain", false, file.getName(), (int) file.length(), file.getParentFile());
-        fileItem.getOutputStream();
-        return new CommonsMultipartFile(fileItem);
     }
 
     private static Resource getValidFile() throws IOException {
