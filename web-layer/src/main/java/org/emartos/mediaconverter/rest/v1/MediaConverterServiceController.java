@@ -46,7 +46,7 @@ public class MediaConverterServiceController {
 
     @PostMapping("/image/resize")
 //    @RequestMapping(value="/image/resize", method=RequestMethod.POST , consumes= {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<Resource> resizeImage(@RequestHeader("apiKey") String apiKey, @RequestParam("file") MultipartFile file,
+    public ResponseEntity<Resource> resizeImage(@RequestHeader("apiKey") String apiKey, @RequestParam("selectedFile") MultipartFile file,
                                          @RequestParam("width") Integer width, @RequestParam("height") Integer height)
             throws BadRequestException {
         try {
