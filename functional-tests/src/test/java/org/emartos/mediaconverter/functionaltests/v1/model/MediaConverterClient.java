@@ -1,24 +1,29 @@
 package org.emartos.mediaconverter.functionaltests.v1.model;
 
+import org.apache.commons.io.IOUtils;
 import org.emartos.mediaconverter.functionaltests.v1.model.request.MediaConverterRequest;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.plaf.synth.SynthRootPaneUI;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MediaConverterClient {
 
+    private static final Logger LOGGER = Logger.getLogger(MediaConverterClient.class.getName());
     private static final String MEDIA_CONVERTER_API_KEY_FIELD_KEY =  "apiKey";
 
     private String mediaConverterEndpoint;
     private HttpHeaders headers;
     private MultiValueMap<String, Object> multipartFormBody;
-    HttpEntity<Resource> response;
+    ResponseEntity<Resource> response;
 
     public MediaConverterClient(String mediaConverterEndpoint) {
         this.mediaConverterEndpoint = mediaConverterEndpoint;
@@ -46,6 +51,21 @@ public class MediaConverterClient {
                 httpMethod,
                 httpEntity,
                 Resource.class);
+
+        System.out.println("ok");
     }
 
+    public HttpStatus getResponseStatusCode() {
+        return response.getStatusCode();
+    }
+
+    public byte[] getResponseImage() {
+        try {
+            InputStream inputStream = response.getBody().getInputStream();
+            return IOUtils.toByteArray(inputStream);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "IO Exception");
+        }
+        return null;
+    }
 }

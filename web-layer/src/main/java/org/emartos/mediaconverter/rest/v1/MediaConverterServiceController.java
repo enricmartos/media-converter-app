@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
-public class MediaConverterServiceController {
+public class MediaConverterServiceController implements org.emartos.mediaconverterapi.v1.MediaConverterService {
 
     private static final Logger LOGGER = Logger.getLogger(MediaConverterServiceController.class.getName());
 
@@ -31,23 +32,8 @@ public class MediaConverterServiceController {
     @Autowired
     private PropertiesConfig propertiesConfig;
 
-    @GetMapping("health-check")
-    public String getHealthCheck() {
-        return "Health check OK";
-    }
-
-    @PostMapping("image/process")
-    public ResponseEntity<Resource> processValues(@RequestHeader("apiKey") String apiKey,
-                                                  @RequestParam("width") Integer width, @RequestParam("height") Integer height) throws BadRequestException  {
-        validateApiKey(apiKey);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-
-
-    @PostMapping("/image/resize")
-//    @RequestMapping(value="/image/resize", method=RequestMethod.POST , consumes= {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<Resource> resizeImage(@RequestHeader("apiKey") String apiKey, @RequestParam("selectedFile") MultipartFile file,
-                                         @RequestParam("width") Integer width, @RequestParam("height") Integer height)
+    @Override
+    public ResponseEntity<Resource> resizeImage(String apiKey, MultipartFile file, Integer width, Integer height)
             throws BadRequestException {
         try {
             validateApiKey(apiKey);
@@ -59,9 +45,8 @@ public class MediaConverterServiceController {
         return null;
     }
 
-    @PostMapping("/image/autorotate")
-    public ResponseEntity<Resource> autorotateImage(@RequestHeader("apiKey") String apiKey,
-                                                    @RequestParam("file") MultipartFile file) throws BadRequestException {
+    @Override
+    public ResponseEntity<Resource> autorotateImage(String apiKey, MultipartFile file) throws BadRequestException {
         try {
             validateApiKey(apiKey);
             validateImage(new FileUploadForm(file.getBytes()));
@@ -70,6 +55,13 @@ public class MediaConverterServiceController {
             LOGGER.log(Level.SEVERE, "IO Exception");
         }
         return null;
+    }
+
+    @Override
+    public HashMap<String, String> healthCheck() {
+        HashMap<String, String> healthCheck = new HashMap<>();
+        healthCheck.put("health-check", "OK");
+        return healthCheck;
     }
 
     private void validateApiKey(String apiKey) throws BadRequestException {

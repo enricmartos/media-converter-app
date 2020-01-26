@@ -1,6 +1,8 @@
 package org.emartos.mediaconverter.functionaltests.v1.model.request;
 
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.emartos.mediaconverter.functionaltests.v1.random.ImageRandomizer;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.LinkedMultiValueMap;
@@ -8,22 +10,33 @@ import org.springframework.util.MultiValueMap;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 abstract class ImageRequest implements MediaConverterRequest {
 
-    private static final String TEST_IMG_PATH = "functional-tests/src/test/resources/testimg.jpg";
+    private static final String RANDOM_ORIGINAL_IMAGE = "randomImage";
+//    private static final String TEST_IMG_PATH = "functional-tests/src/test/resources/testimg.jpg";
+    private static final String INPUT_IMG_PATH = "src/test/resources/images/input/";
     private static final String FILE_REQUEST_FIELD_KEY = "selectedFile";
 
-
+    String originalImage;
 
     MultiValueMap<String, Object> getBaseMultipartFormBody() throws IOException {
+//        byte[] fileData = new byte[0];
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add(FILE_REQUEST_FIELD_KEY, getValidFile());
+//        if (originalImage.equals(RANDOM_ORIGINAL_IMAGE)) {
+//            fileData = ArrayUtils.toPrimitive(new ImageRandomizer().getRandomValue());
+//        } else if (!originalImage.isEmpty()) {
+            File file = new File(INPUT_IMG_PATH + originalImage);
+            Resource resource = new FileSystemResource(file);
+//            fileData = Files.readAllBytes(new File(INPUT_IMG_PATH + originalImage).toPath());
+//        }
+        body.add(FILE_REQUEST_FIELD_KEY, resource);
         return body;
     }
 
-    private static Resource getValidFile() throws IOException {
-        File file = new File(TEST_IMG_PATH);
-        return new FileSystemResource(file);
-    }
+//    private static Resource getValidFile() throws IOException {
+//        File file = new File(TEST_IMG_PATH);
+//        return new FileSystemResource(file);
+//    }
 }

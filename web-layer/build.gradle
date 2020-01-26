@@ -6,7 +6,7 @@ ext {
 }
 
 dependencies {
-    implementation 'com.github.enricmartos:media-converter-api:api-changes-SNAPSHOT'
+    implementation 'com.github.enricmartos:media-converter-api:contract-definition-SNAPSHOT'
     implementation project(':service-layer')
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
