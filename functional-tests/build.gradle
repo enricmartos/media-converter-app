@@ -17,3 +17,9 @@ dependencies {
     testImplementation group: 'org.testng', name: 'testng', version: '6.8.21'
     testImplementation group: 'com.google.inject', name: 'guice', version: '4.1.0'
 }
+
+//Do not execute the tests as the application will not be up and running when this task is executed
+// (and it will always fail)
+test {
+    exclude '**/*'
+}
