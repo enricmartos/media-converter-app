@@ -17,8 +17,8 @@ public class World {
 
     private ResponseImage responseImage;
 
-//    private static final String MEDIA_CONVERTER_ENDPOINT = "http://172.17.0.1:8086/media-converter";
-    private static final String MEDIA_CONVERTER_ENDPOINT = "http://localhost:8080/media-converter";
+    private static final String MEDIA_CONVERTER_ENDPOINT = "http://172.17.0.1:8086/media-converter";
+//    private static final String MEDIA_CONVERTER_ENDPOINT = "http://localhost:8080/media-converter";
 
     public void addClient(String reference, MediaConverterClient mediaConverterClient) {
         clients.put(reference, mediaConverterClient);

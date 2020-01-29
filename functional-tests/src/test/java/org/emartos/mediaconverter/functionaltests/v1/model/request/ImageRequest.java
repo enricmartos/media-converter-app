@@ -2,7 +2,9 @@ package org.emartos.mediaconverter.functionaltests.v1.model.request;
 
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.emartos.mediaconverter.functionaltests.v1.model.utils.FileUtils;
 import org.emartos.mediaconverter.functionaltests.v1.random.ImageRandomizer;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.LinkedMultiValueMap;
@@ -11,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Optional;
 
 abstract class ImageRequest implements MediaConverterRequest {
 
@@ -22,15 +25,18 @@ abstract class ImageRequest implements MediaConverterRequest {
     String originalImage;
 
     MultiValueMap<String, Object> getBaseMultipartFormBody() throws IOException {
-//        byte[] fileData = new byte[0];
+        Resource resource = null;
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-//        if (originalImage.equals(RANDOM_ORIGINAL_IMAGE)) {
-//            fileData = ArrayUtils.toPrimitive(new ImageRandomizer().getRandomValue());
-//        } else if (!originalImage.isEmpty()) {
+        if (originalImage.equals(RANDOM_ORIGINAL_IMAGE)) {
+            byte[] fileData = ArrayUtils.toPrimitive(new ImageRandomizer().getRandomValue());
+            Optional<File> fileOptional = FileUtils.createFile(fileData);
+            if (fileOptional.isPresent()) {
+                resource = new FileSystemResource(fileOptional.get());
+            }
+        } else if (!originalImage.isEmpty()) {
             File file = new File(INPUT_IMG_PATH + originalImage);
-            Resource resource = new FileSystemResource(file);
-//            fileData = Files.readAllBytes(new File(INPUT_IMG_PATH + originalImage).toPath());
-//        }
+            resource = new FileSystemResource(file);
+        }
         body.add(FILE_REQUEST_FIELD_KEY, resource);
         return body;
     }

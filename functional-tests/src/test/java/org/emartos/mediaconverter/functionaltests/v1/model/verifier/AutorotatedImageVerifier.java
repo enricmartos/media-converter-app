@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static org.testng.Assert.assertEquals;
 
-public class AutorotatedImageVerifier extends ImageVerifier {
+public class AutorotatedImageVerifier {
 
     private String expectedOrientation;
 

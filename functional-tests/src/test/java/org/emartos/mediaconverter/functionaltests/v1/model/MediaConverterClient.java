@@ -5,6 +5,7 @@ import org.emartos.mediaconverter.functionaltests.v1.model.request.MediaConverte
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.swing.plaf.synth.SynthRootPaneUI;
@@ -46,13 +47,15 @@ public class MediaConverterClient {
 
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(multipartFormBody, headers);
 
-        response = restClient.exchange(
-                URI,
-                httpMethod,
-                httpEntity,
-                Resource.class);
-
-        System.out.println("ok");
+        try {
+            response = restClient.exchange(
+                    URI,
+                    httpMethod,
+                    httpEntity,
+                    Resource.class);
+        } catch (HttpStatusCodeException exception){
+            response = new ResponseEntity<>(exception.getStatusCode());
+        }
     }
 
     public HttpStatus getResponseStatusCode() {

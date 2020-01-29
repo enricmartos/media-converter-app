@@ -1,6 +1,6 @@
 Feature: Image auto-rotate
 
-  @ignore
+#  @ignore
   @ok
   Scenario Outline: get the image auto-rotated with valid data (non-random input image)
     Given AppMC is a client of the media-converter module
@@ -8,13 +8,13 @@ Feature: Image auto-rotate
       | originalImage   |
       | <originalImage> |
     Then the media-converter module returns the image auto-rotated
-      | expectedOrientation   | expectedResponseImage   |
-      | <expectedOrientation> | <expectedResponseImage> |
+      | expectedOrientation   |
+      | <expectedOrientation> |
     Examples:
-      | originalImage        | expectedOrientation | expectedResponseImage            |
-      | monalisaWithEXIF.jpg | AUTOROTATED         | monalisaWithEXIF_autorotated.jpg |
+      | originalImage        | expectedOrientation |
+      | monalisaWithEXIF.jpg | AUTOROTATED         |
 
-  @ignore
+#  @ignore
     @ok
   Scenario Outline: get the image auto-rotated with valid data (random input image)
     Given AppMC is a client of the media-converter module
@@ -29,7 +29,7 @@ Feature: Image auto-rotate
       | randomImage   | AUTOROTATED         |
 
 
-  @ignore
+#  @ignore
   @ko
   Scenario Outline: get the image auto-rotated with invalid data
     Given AppMC is a client of the media-converter module
@@ -42,7 +42,7 @@ Feature: Image auto-rotate
       | index.html    |
 
 
-  @ignore
+#  @ignore
   @ko
   Scenario: get the image auto-rotated with invalid api Key
     Given AppMC is a client of the media-converter module
@@ -52,7 +52,7 @@ Feature: Image auto-rotate
       | fullHD.jpg    |
     Then the request fails with a bad request
 
-  @ignore
+#  @ignore
   @ko
   Scenario: get the image auto-rotated with empty data
     Given AppMC is a client of the media-converter module

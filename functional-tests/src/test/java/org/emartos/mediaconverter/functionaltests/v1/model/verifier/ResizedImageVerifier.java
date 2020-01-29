@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static org.testng.Assert.assertEquals;
 
-public class ResizedImageVerifier extends ImageVerifier {
+public class ResizedImageVerifier {
 
     private Integer expectedWidth;
     private Integer expectedHeight;

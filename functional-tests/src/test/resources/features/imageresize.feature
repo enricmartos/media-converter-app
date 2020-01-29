@@ -8,16 +8,16 @@ Feature: Image resize
       |  originalImage  |  width  |  height  |
       | <originalImage> | <width> | <height> |
     Then the media-converter module returns the image resized
-      |  expectedWidth  |  expectedHeight  |  expectedResponseImage  |
-      | <expectedWidth> | <expectedHeight> | <expectedResponseImage> |
+      |  expectedWidth  |  expectedHeight  |
+      | <expectedWidth> | <expectedHeight> |
     Examples:
-      |  originalImage  |  width  |  height  | expectedWidth | expectedHeight | expectedResponseImage |
-#      |   fullHD.jpg    |   100   |   100    |      100      |      100       |  fullHD_100x100.jpg   |
-      |   xing.BMP   |   150   |    75    |      150      |       75       |   marbles_150x75.jpg  |
-#      |    fullHD.png   |   150   |    75      |      150      |       75       |   fullHD_150x75.jpg   |
-#      |   fullHD.poster |   75    |    50      |      75       |       50       |   fullHD_75x50.jpg  |
+      |  originalImage  |  width  |  height  | expectedWidth | expectedHeight |
+      |   fullHD.jpg    |   100   |   100    |      100      |      100       |
+      |   xing.BMP   |   150   |    75    |      150      |       75       |
+#      |    fullHD.png   |   150   |    75      |      150      |       75       |
+#      |   fullHD.poster |   75    |    50      |      75       |       50       |
 
-  @ignore
+#  @ignore
   @ok
   Scenario Outline: get the image resized with valid data (random input image)
     Given AppMC is a client of the media-converter module
@@ -33,7 +33,7 @@ Feature: Image resize
 
 
 
-  @ignore
+#  @ignore
   @ko
   Scenario Outline: get the image resized with invalid data
     Given AppMC is a client of the media-converter module
@@ -50,7 +50,7 @@ Feature: Image resize
       |   fullHD.jpg    |    -1   |   4320   |
       |   index.html    |    50   |    50    |
 
-  @ignore
+#  @ignore
   @ko
   Scenario: get the image resized with invalid api Key
     Given AppMC is a client of the media-converter module
@@ -60,7 +60,7 @@ Feature: Image resize
       |  fullHD.jpg     |   100   |   100   |
     Then the request fails with a bad request
 
-  @ignore
+#  @ignore
   @ko
   Scenario: get the image resized with empty data
     Given AppMC is a client of the media-converter module

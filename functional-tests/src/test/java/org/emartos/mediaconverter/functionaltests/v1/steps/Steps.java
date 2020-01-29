@@ -55,7 +55,7 @@ public class Steps {
     @When("^([^ ]+) requests to resize an image")
     public void getImageResized(String clientReference, List<ResizeImageRequest> resizeImageRequests) throws Throwable {
         MediaConverterClient mediaConverterClient = this.world.getClient(clientReference);
-        mediaConverterClient.setHeaders(MEDIA_CONVERTER_API_KEY, MediaType.MULTIPART_FORM_DATA);
+        mediaConverterClient.setHeaders(this.world.getApiKey(clientReference), MediaType.MULTIPART_FORM_DATA);
         mediaConverterClient.setMultipartFormBody(resizeImageRequests.get(0));
         mediaConverterClient.doRestRequest(RESIZE_IMAGE_ENDPOINT, HttpMethod.POST);
         if (mediaConverterClient.getResponseStatusCode().equals(HttpStatus.BAD_REQUEST)) {
@@ -70,7 +70,7 @@ public class Steps {
     public void getImageAutorotated(String clientReference, List<AutorotateImageRequest> autorotateImageRequests) throws
             Throwable {
         MediaConverterClient mediaConverterClient = this.world.getClient(clientReference);
-        mediaConverterClient.setHeaders(MEDIA_CONVERTER_API_KEY, MediaType.MULTIPART_FORM_DATA);
+        mediaConverterClient.setHeaders(this.world.getApiKey(clientReference), MediaType.MULTIPART_FORM_DATA);
         mediaConverterClient.setMultipartFormBody(autorotateImageRequests.get(0));
         mediaConverterClient.doRestRequest(AUTOROTATE_IMAGE_ENDPOINT, HttpMethod.POST);
         if (mediaConverterClient.getResponseStatusCode().equals(HttpStatus.BAD_REQUEST)) {
@@ -91,11 +91,7 @@ public class Steps {
             IOException,
             ImageProcessingException,
             MetadataException {
-        if (verifiers.get(0).getExpectedResponseImage() == null) {
             verifiers.get(0).verifyImageOrientation(world.getResponseImage());
-        } else {
-            verifiers.get(0).verifyImage(world.getResponseImage());
-        }
     }
 
     @Then("^the request fails with a bad request$")
