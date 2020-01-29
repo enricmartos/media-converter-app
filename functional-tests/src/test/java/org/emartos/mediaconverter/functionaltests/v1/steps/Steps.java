@@ -83,11 +83,7 @@ public class Steps {
 
     @Then("^the media-converter module returns the image resized$")
     public void verifyImageResized(List<ResizedImageVerifier> verifiers) throws IOException {
-        if (verifiers.get(0).getExpectedResponseImage() == null) {
             verifiers.get(0).verifyImageDimension(world.getResponseImage());
-        } else {
-            verifiers.get(0).verifyImage(world.getResponseImage());
-        }
     }
 
     @Then("^the media-converter module returns the image auto-rotated$")

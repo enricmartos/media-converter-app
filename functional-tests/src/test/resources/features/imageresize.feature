@@ -1,6 +1,6 @@
 Feature: Image resize
 
-  @ignore
+#  @ignore
   @ok
   Scenario Outline: get the image resized with valid data (non-random input image)
     Given AppMC is a client of the media-converter module
@@ -12,8 +12,8 @@ Feature: Image resize
       | <expectedWidth> | <expectedHeight> | <expectedResponseImage> |
     Examples:
       |  originalImage  |  width  |  height  | expectedWidth | expectedHeight | expectedResponseImage |
-      |   fullHD.jpg    |   100   |   100    |      100      |      100       |  fullHD_100x100.jpg   |
-      |   marbles.BMP   |   150   |    75    |      150      |       75       |   marbles_150x75.jpg  |
+#      |   fullHD.jpg    |   100   |   100    |      100      |      100       |  fullHD_100x100.jpg   |
+      |   xing.BMP   |   150   |    75    |      150      |       75       |   marbles_150x75.jpg  |
 #      |    fullHD.png   |   150   |    75      |      150      |       75       |   fullHD_150x75.jpg   |
 #      |   fullHD.poster |   75    |    50      |      75       |       50       |   fullHD_75x50.jpg  |
 

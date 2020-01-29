@@ -1,6 +1,6 @@
 Feature: Image auto-rotate
 
-#  @ignore
+  @ignore
   @ok
   Scenario Outline: get the image auto-rotated with valid data (non-random input image)
     Given AppMC is a client of the media-converter module

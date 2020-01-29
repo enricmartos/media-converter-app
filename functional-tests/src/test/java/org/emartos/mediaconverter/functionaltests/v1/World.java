@@ -11,7 +11,7 @@ import java.util.Map;
 
 @ScenarioScoped
 public class World {
-    private final List<Exception> exceptions = new ArrayList<Exception>();
+    private final List<Exception> exceptions = new ArrayList<>();
     private final Map<String, MediaConverterClient> clients = new HashMap<>();
     private final Map<String, String> apiKeys = new HashMap<>();
 
