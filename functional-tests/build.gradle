@@ -20,6 +20,6 @@ dependencies {
 
 //Do not execute the tests as the application will not be up and running when this task is executed
 // (and it will always fail)
-//test {
-//    exclude '**/*'
-//}
+test {
+    exclude '**/*'
+}
