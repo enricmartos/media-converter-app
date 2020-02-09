@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public final class FileUtils {
 
-    private static final String TMP_IMG_PATH = "src/test/resources/images/tmp/";//getTmpFilename
+    private static final String TMP_IMG_PATH = "src/test/resources/images/tmp/";
     private static final int RANDOM_UPPER_LIMIT = 9999999;
 
     private static final Logger LOGGER = Logger.getLogger(FileUtils.class.getName());

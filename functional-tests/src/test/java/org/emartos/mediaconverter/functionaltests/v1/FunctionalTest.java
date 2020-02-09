@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        format = { "pretty", "html:target/calculator/features" },
+        format = { "pretty", "html:build/reports/cucumber/v1/" },
         tags = {"~@ignore"},
         features = "classpath:features"
 )

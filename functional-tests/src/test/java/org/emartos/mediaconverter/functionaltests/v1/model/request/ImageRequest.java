@@ -40,9 +40,4 @@ abstract class ImageRequest implements MediaConverterRequest {
         body.add(FILE_REQUEST_FIELD_KEY, resource);
         return body;
     }
-
-//    private static Resource getValidFile() throws IOException {
-//        File file = new File(TEST_IMG_PATH);
-//        return new FileSystemResource(file);
-//    }
 }

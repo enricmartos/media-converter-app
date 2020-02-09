@@ -15,7 +15,7 @@ Feature: Image auto-rotate
       | monalisaWithEXIF.jpg | AUTOROTATED         |
 
 #  @ignore
-    @ok
+  @ok
   Scenario Outline: get the image auto-rotated with valid data (random input image)
     Given AppMC is a client of the media-converter module
     When AppMC requests to auto-rotate an image
