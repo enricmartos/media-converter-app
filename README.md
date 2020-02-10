@@ -9,7 +9,7 @@ The application has been deployed with Heroku and you can try it out on https://
 ## Personal goals
 
 - To implement a REST API using Spring Boot
-- To build a service layer integrated with an external image conversion software (ImageMagick)[https://imagemagick.org/]
+- To build a service layer integrated with an external image conversion software [ImageMagick](https://imagemagick.org/)
 - To understand the configuration and deployment of Spring Boot applications
 - To add code analysis checks such as checkstyle and pmd
 - To automate the functional tests with Cucumber
@@ -19,14 +19,14 @@ The application has been deployed with Heroku and you can try it out on https://
 
 ## Architectural approach
 
-The project (media-converter-api)[https://github.com/enricmartos/media-converter-api] defines the API endpoints along with the model, and it is added as an external dependency to the *web-layer*. 
+The project [media-converter-api](https://github.com/enricmartos/media-converter-api) defines the API endpoints along with the model, and it is added as an external dependency to the *web-layer*. 
 
 Regarding the Layered Architecture approach, this Spring Boot has been splitted up into multiple sub-modules with Gradle. Each one of the sub-modules described below is a codebase that can be maintained and built separately from the other ones.
 
 - *Parent module*: Contains all the sub-modules. The top-level *build.gradle* file configures build behavior that is shared accross all sub-modules.
 - *configuration-layer*: Contains the actual Spring Boot application and any Spring Java Configuration that puts together the Spring application context. To create the application context, it needs access to the other modules, which each provides certain parts of the application. So, it depends on *service-layer* and *web-layer*. This sub-module is called infrastructure in other contexts.
 - *service-layer*: Also known as *application-layer*, it implements use cases that orchestrate the domain model. 
-- *web-layer*: It is the entry point of the application and is coupled to the communication protocol (HTTP). It implements the API contract endpoints declared in (media-converter-api)[https://github.com/enricmartos/media-converter-api]. It may also call the use cases implemented in the *service-layer*, so it depends on it.
+- *web-layer*: It is the entry point of the application and is coupled to the communication protocol (HTTP). It implements the API contract endpoints declared in [media-converter-api](https://github.com/enricmartos/media-converter-api). It may also call the use cases implemented in the *service-layer*, so it depends on it.
 - *functional-tests*: Contains the acceptance tests implemented with Cucumber and Gherkin.
 
 
@@ -62,12 +62,14 @@ Regarding the Layered Architecture approach, this Spring Boot has been splitted 
 
 ### With Docker
 
-- Clone this repo to your local machine. Docker-compose version must above 1.18 (Upgrade docker-compose to the latest version)[https://stackoverflow.com/questions/49839028/how-to-upgrade-docker-compose-to-latest-version]. Don't forget to restart your shell after performing all the steps.
+- Clone this repo to your local machine. Docker-compose version must above 1.18 [Upgrade docker-compose to the latest version](https://stackoverflow.com/questions/49839028/how-to-upgrade-docker-compose-to-latest-version). Don't forget to restart your shell after performing all the steps.
 ```
 # Start docker-compose
 
-$ docker-compose up
+$ docker-compose -f docker-compose-debug.yaml up
 ```
+
+- Open your browser and test the application on *localhost:8086/media-converter/documentation*
 
 ## Usage
 
@@ -82,7 +84,7 @@ $ docker-compose up
 
 ### Run accceptance tests
 
-- In order to run the acceptance tests, execute the commands detailed below
+- First of all, start the application in a separate console. In order to run the acceptance tests from the IDE console, execute the commands detailed below
 ```
 # Go to functional-tests sub-module
 
@@ -97,6 +99,6 @@ $ ./gradlew build
 ## References
 
 I have accomplished the aforementioned goals thanks to the following resources:
-- (Building a Multi-Module Spring Boot Application with Gradle)[https://reflectoring.io/spring-boot-gradle-multi-module/]
-- (How to add Swagger to Spring Boot)[https://www.youtube.com/watch?v=gduKpLW_vdY]
-- (How to configure Swagger in Spring Boot)[https://www.youtube.com/watch?v=8s9I1G4tXhA]
+- [Building a Multi-Module Spring Boot Application with Gradle](https://reflectoring.io/spring-boot-gradle-multi-module/)
+- [How to add Swagger to Spring Boot](https://www.youtube.com/watch?v=gduKpLW_vdY)
+- [How to configure Swagger in Spring Boot](https://www.youtube.com/watch?v=8s9I1G4tXhA)
