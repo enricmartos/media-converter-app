@@ -90,6 +90,12 @@ $ docker-compose -f docker-compose-debug.yaml up
 
 $ cd functional-tests
 
+# Comment out the snipptet in build.gradle, which avoids the tests execution
+
+test {
+    exclude '**/*'
+}
+
 # Build sub-module with gradle wrapper
 
 $ ./gradlew build
