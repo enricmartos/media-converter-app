@@ -64,7 +64,7 @@ Regarding the Layered Architecture approach, this Spring Boot has been splitted 
 
 - Clone this repo to your local machine. Docker-compose version must above 1.18 [Upgrade docker-compose to the latest version](https://stackoverflow.com/questions/49839028/how-to-upgrade-docker-compose-to-latest-version). Don't forget to restart your shell after performing all the steps.
 ```
-# Start docker-compose
+# Start docker-compose. Add --build flag to also build the application
 
 $ docker-compose -f docker-compose-debug.yaml up
 ```
