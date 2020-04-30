@@ -6,9 +6,11 @@ ext {
 }
 
 dependencies {
-    implementation 'com.github.enricmartos:media-converter-api:api-docs-v1-SNAPSHOT'
+    implementation 'com.github.enricmartos:media-converter-api:swagger-free-v2-SNAPSHOT'
     implementation project(':service-layer')
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // needed to display documentation html
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     //Unit Testing
     testImplementation group: 'junit', name: 'junit', version: junitVersion
