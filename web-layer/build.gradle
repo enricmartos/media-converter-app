@@ -1,4 +1,5 @@
 ext {
+    xugglerVersion = '5.2'
     junitVersion = '4.10'
     powermockVersion = '1.6.2'
     springmockVersion = '2.0.8'
@@ -6,11 +7,13 @@ ext {
 }
 
 dependencies {
-    implementation 'com.github.enricmartos:media-converter-api:swagger-free-v2-SNAPSHOT'
+    implementation 'com.github.enricmartos:media-converter-api:trim-video-SNAPSHOT'
     implementation project(':service-layer')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // needed to display documentation html
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // extract video metadata
+    compile group: 'com.googlecode.mp4parser', name: 'isoparser', version: '1.1.7'
 
     //Unit Testing
     testImplementation group: 'junit', name: 'junit', version: junitVersion

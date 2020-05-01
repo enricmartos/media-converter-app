@@ -7,6 +7,7 @@ RUN gradle build
 FROM openjdk:8
 USER root
 RUN apt-get update && apt-get install -y imagemagick
+RUN apt-get update && apt-get install -y ffmpeg
 # Add server.props to the container in /opt/conf new dir
 WORKDIR /opt
 RUN mkdir conf
