@@ -1,7 +1,7 @@
 package org.emartos.mediaconverter.rest.v1;
 
 
-import org.emartos.mediaconverter.MediaConverterVideoService;
+import org.emartos.mediaconverter.VideoService;
 import org.emartos.mediaconverter.config.PropertiesConfig;
 import org.emartos.mediaconverterapi.v1.exceptions.BadRequestException;
 import org.junit.Assert;
@@ -30,7 +30,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 
 @RunWith(PowerMockRunner.class)
-public class MediaConverterVideoServiceControllerTest {
+public class VideoServiceControllerTest {
 
     private static final String TEST_VIDEO_PATH = "src/test/resources/video/testVideo.mp4";
     private static final String TEST_GIF_PATH = "src/test/resources/shared/testGif.gif";
@@ -48,9 +48,9 @@ public class MediaConverterVideoServiceControllerTest {
     private static final String API_KEY_MOCK = "apiKey";
 
     @InjectMocks
-    MediaConverterVideoServiceController mediaConverterVideoServiceController;
+    VideoServiceController videoServiceController;
     @Mock
-    MediaConverterVideoService mediaConverterVideoService;
+    VideoService videoService;
     @Mock
     private PropertiesConfig propertiesConfig;
 
@@ -67,10 +67,10 @@ public class MediaConverterVideoServiceControllerTest {
 
     @Test
     public void testValidVideoWithEmptyOutputFile() throws BadRequestException, IOException {
-        when(mediaConverterVideoService.trimVideo(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt(),
+        when(videoService.trimVideo(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt(),
                 Mockito.anyInt(), Mockito.anyInt())).thenReturn(null);
 
-        ResponseEntity<Resource> response = mediaConverterVideoServiceController.trimVideo(API_KEY_MOCK,
+        ResponseEntity<Resource> response = videoServiceController.trimVideo(API_KEY_MOCK,
                 getStubValidVideo(), START_MINUTE, START_SECOND, END_MINUTE, END_SECOND);
 
         Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -78,10 +78,10 @@ public class MediaConverterVideoServiceControllerTest {
 
     @Test
     public void testValidVideoWithPresentOutputFile() throws BadRequestException, IOException {
-        when(mediaConverterVideoService.trimVideo(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt(),
+        when(videoService.trimVideo(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt(),
                 Mockito.anyInt(), Mockito.anyInt())).thenReturn(getStubFile());
 
-        ResponseEntity<Resource> response = mediaConverterVideoServiceController.trimVideo(API_KEY_MOCK,
+        ResponseEntity<Resource> response = videoServiceController.trimVideo(API_KEY_MOCK,
                 getStubValidVideo(), START_MINUTE, START_SECOND, END_MINUTE, END_SECOND);
 
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -90,21 +90,21 @@ public class MediaConverterVideoServiceControllerTest {
     @Test
     public void testInvalidVideoWithInvalidFileData() throws BadRequestException, IOException {
         thrown.expect(BadRequestException.class);
-        mediaConverterVideoServiceController.trimVideo(API_KEY_MOCK, getStubInvalidVideo(),
+        videoServiceController.trimVideo(API_KEY_MOCK, getStubInvalidVideo(),
                 START_MINUTE, START_SECOND, END_MINUTE, END_SECOND);
     }
 
     @Test
     public void testValidVideoWithExcessiveTimeRange() throws BadRequestException, IOException {
         thrown.expect(BadRequestException.class);
-        mediaConverterVideoServiceController.trimVideo(API_KEY_MOCK, getStubValidVideo(),
+        videoServiceController.trimVideo(API_KEY_MOCK, getStubValidVideo(),
                 START_MINUTE, START_SECOND, EXCESSIVE_TIME, EXCESSIVE_TIME);
     }
 
     @Test
     public void testValidVideoWithNegativeTimeRange() throws BadRequestException, IOException {
         thrown.expect(BadRequestException.class);
-        mediaConverterVideoServiceController.trimVideo(API_KEY_MOCK, getStubValidVideo(),
+        videoServiceController.trimVideo(API_KEY_MOCK, getStubValidVideo(),
                 NEGATIVE_TIME, NEGATIVE_TIME, EXCESSIVE_TIME, EXCESSIVE_TIME);
     }
 

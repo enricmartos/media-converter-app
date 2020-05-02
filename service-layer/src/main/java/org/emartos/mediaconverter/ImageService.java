@@ -1,7 +1,7 @@
 package org.emartos.mediaconverter;
 
 //@Service
-public interface MediaConverterImageService {
+public interface ImageService {
 
     byte[] resizeImage(byte[] image, Integer width, Integer height);
 

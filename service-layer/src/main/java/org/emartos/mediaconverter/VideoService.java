@@ -1,7 +1,7 @@
 package org.emartos.mediaconverter;
 
 
-public interface MediaConverterVideoService {
+public interface VideoService {
 
     byte[] trimVideo(byte[] video, Integer startMinute, Integer startSecond,
                                      Integer endMinute, Integer endSecond);

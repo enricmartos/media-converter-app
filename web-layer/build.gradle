@@ -7,7 +7,7 @@ ext {
 }
 
 dependencies {
-    implementation 'com.github.enricmartos:media-converter-api:trim-video-SNAPSHOT'
+    implementation 'com.github.enricmartos:media-converter-api:trim-video-v2-SNAPSHOT'
     implementation project(':service-layer')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // needed to display documentation html

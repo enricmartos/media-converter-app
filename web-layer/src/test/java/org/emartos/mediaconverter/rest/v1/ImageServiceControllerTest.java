@@ -1,7 +1,7 @@
 package org.emartos.mediaconverter.rest.v1;
 
 
-import org.emartos.mediaconverter.MediaConverterImageService;
+import org.emartos.mediaconverter.ImageService;
 import org.emartos.mediaconverter.config.PropertiesConfig;
 import org.emartos.mediaconverterapi.v1.exceptions.BadRequestException;
 import org.junit.Assert;
@@ -15,9 +15,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -27,10 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.powermock.api.mockito.PowerMockito.when;
+import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 
 @RunWith(PowerMockRunner.class)
-public class MediaConverterImageServiceControllerTest {
+public class ImageServiceControllerTest {
 
     private static final String TEST_IMG_PATH = "src/test/resources/image/testimg.jpg";
     private static final String TEST_GIF_PATH = "src/test/resources/shared/testGif.gif";
@@ -50,10 +55,13 @@ public class MediaConverterImageServiceControllerTest {
 
     private static final String API_KEY_MOCK = "apiKey";
 
+    // Needed constant for HTTP headers mock
+    private static final String CONTENT_DISPOSITION_VALUE = "attachment";
+
     @InjectMocks
-    MediaConverterImageServiceController mediaConverterImageServiceController;
+    ImageServiceController imageServiceController;
     @Mock
-    MediaConverterImageService mediaConverterImageService;
+    ImageService imageService;
     @Mock
     private PropertiesConfig propertiesConfig;
 
@@ -70,9 +78,9 @@ public class MediaConverterImageServiceControllerTest {
 
     @Test
     public void testValidImageWithEmptyOutputFile() throws BadRequestException, IOException {
-        when(mediaConverterImageService.resizeImage(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(null);
+        when(imageService.resizeImage(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(null);
 
-        ResponseEntity<Resource> response = mediaConverterImageServiceController.resizeImage(API_KEY_MOCK,
+        ResponseEntity<Resource> response = imageServiceController.resizeImage(API_KEY_MOCK,
                 getStubValidImage(), VALID_IMG_WIDTH, VALID_IMG_HEIGHT);
 
         Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -80,9 +88,9 @@ public class MediaConverterImageServiceControllerTest {
 
     @Test
     public void testValidImageWithPresentOutputFile() throws BadRequestException, IOException {
-        when(mediaConverterImageService.resizeImage(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(getStubFile());
+        when(imageService.resizeImage(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(getStubFile());
 
-        ResponseEntity<Resource> response = mediaConverterImageServiceController.resizeImage(API_KEY_MOCK,
+        ResponseEntity<Resource> response = imageServiceController.resizeImage(API_KEY_MOCK,
                 getStubValidImage(), VALID_IMG_WIDTH, VALID_IMG_HEIGHT);
 
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -91,20 +99,20 @@ public class MediaConverterImageServiceControllerTest {
     @Test
     public void testInvalidImageWithInvalidFileData() throws BadRequestException, IOException {
         thrown.expect(BadRequestException.class);
-        mediaConverterImageServiceController.resizeImage(API_KEY_MOCK, getStubInvalidImage(), VALID_IMG_WIDTH, VALID_IMG_HEIGHT);
+        imageServiceController.resizeImage(API_KEY_MOCK, getStubInvalidImage(), VALID_IMG_WIDTH, VALID_IMG_HEIGHT);
     }
 
     @Test
     public void testValidImageWithExcessiveResolution() throws BadRequestException, IOException {
         thrown.expect(BadRequestException.class);
-        mediaConverterImageServiceController.resizeImage(API_KEY_MOCK,
+        imageServiceController.resizeImage(API_KEY_MOCK,
                 getStubValidImage(), EXCESSIVE_IMG_WIDTH, EXCESSIVE_IMG_HEIGHT);
     }
 
     @Test
     public void testValidImageWithNegativeResolution() throws BadRequestException, IOException {
         thrown.expect(BadRequestException.class);
-        mediaConverterImageServiceController.resizeImage(API_KEY_MOCK,
+        imageServiceController.resizeImage(API_KEY_MOCK,
                 getStubValidImage(), NEGATIVE_IMG_RESOLUTION, NEGATIVE_IMG_RESOLUTION);
     }
 
@@ -124,6 +132,17 @@ public class MediaConverterImageServiceControllerTest {
         File file = new File(TEST_GIF_PATH);
         byte[] bytes = Files.readAllBytes(file.toPath());
         return new MockMultipartFile("file", file.getName(), "image/jpeg", bytes);
+    }
+
+    // Http headers Mock
+    private HttpHeaders getStubHttpHeaders(String contentTypeValue) {
+        MultiValueMap<String, String> headersMap = new LinkedMultiValueMap<>();
+        headersMap.add(CONTENT_DISPOSITION, CONTENT_DISPOSITION_VALUE);
+        headersMap.add(CONTENT_TYPE, contentTypeValue);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.addAll(headersMap);
+        return httpHeaders;
     }
 
 }

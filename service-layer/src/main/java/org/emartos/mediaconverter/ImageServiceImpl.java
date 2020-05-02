@@ -12,12 +12,12 @@ import java.util.logging.Logger;
 
 
 @Service
-public class MediaConverterImageServiceImpl implements MediaConverterImageService {
+public class ImageServiceImpl implements ImageService {
 
     //Constants
     //Common
     private static final String ROOT_DIR = "/tmp/";
-    private static final Logger LOGGER = Logger.getLogger(MediaConverterImageServiceImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ImageServiceImpl.class.getName());
     //resizeImage
     private static final String SUFFIX_RESIZED_IMAGE_PATTERN = "_%dx%d";
     private static final String RESIZE_COMMAND_PATTERN = "convert %s -resize %dx%d! %s";

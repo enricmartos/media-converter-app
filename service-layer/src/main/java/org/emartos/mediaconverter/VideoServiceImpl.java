@@ -10,12 +10,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
-public class MediaConverterVideoServiceImpl implements MediaConverterVideoService {
+public class VideoServiceImpl implements VideoService {
 
     //Constants
     //Common
     private static final String ROOT_DIR = "/tmp/";
-    private static final Logger LOGGER = Logger.getLogger(MediaConverterVideoServiceImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(VideoServiceImpl.class.getName());
     // trim video
     private static final String SUFFIX_TRIMMED_VIDEO_PATTERN = "_%d:%d-%d:%d";
     private static final String VIDEO_FORMAT = ".mp4";
