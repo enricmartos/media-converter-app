@@ -19,7 +19,7 @@ public class VideoServiceImpl implements VideoService {
     // trim video
     private static final String SUFFIX_TRIMMED_VIDEO_PATTERN = "_%d:%d-%d:%d";
     private static final String VIDEO_FORMAT = ".mp4";
-    private static final String TRIM_COMMAND_PATTERN = "ffmpeg -i %s -ss 00:%d:%d -t 00:%d:%d -c copy %s";
+    private static final String TRIM_COMMAND_PATTERN = "ffmpeg -i %s -ss 00:%d:%d -to 00:%d:%d -c copy %s";
 
     @Override
     public byte[] trimVideo(byte[] video, Integer startMinute, Integer startSecond, Integer endMinute, Integer endSecond) {
