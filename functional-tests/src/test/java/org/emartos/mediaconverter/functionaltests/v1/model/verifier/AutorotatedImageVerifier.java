@@ -6,7 +6,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import org.emartos.mediaconverter.functionaltests.v1.model.ResponseImage;
-import org.emartos.mediaconverter.functionaltests.v1.model.utils.EXIFOrientation;
+import org.emartos.mediaconverter.functionaltests.v1.model.utils.EXIFOrientationType;
 import org.emartos.mediaconverter.functionaltests.v1.model.utils.FileUtils;
 
 import java.io.File;
@@ -29,14 +29,14 @@ public class AutorotatedImageVerifier {
 
     public void verifyImageOrientation(ResponseImage responseImage) throws IOException, ImageProcessingException, MetadataException {
         if (expectedOrientation != null) {
-            Optional<String> actualResponseImageOrientation = getImageOrientation(responseImage.getResponseImageBytes());
+            Optional<EXIFOrientationType> actualResponseImageOrientation = getImageOrientation(responseImage.getResponseImageBytes());
             actualResponseImageOrientation.ifPresent(i ->
-                assertEquals(actualResponseImageOrientation.get(), expectedOrientation)
+                assertEquals(actualResponseImageOrientation.get().name(), expectedOrientation)
             );
         }
     }
 
-    private Optional<String> getImageOrientation(byte[] autorotatedImage) throws IOException, ImageProcessingException, MetadataException {
+    private Optional<EXIFOrientationType> getImageOrientation(byte[] autorotatedImage) throws IOException, ImageProcessingException, MetadataException {
         Optional<File> fileOptional = FileUtils.createFile(autorotatedImage);
 
         if (fileOptional.isPresent()) {
@@ -45,10 +45,10 @@ public class AutorotatedImageVerifier {
 
             if (exifIFD0Directory != null) {
                 int orientation = exifIFD0Directory.getInt(ExifIFD0Directory.TAG_ORIENTATION);
-                EXIFOrientation exifOrientation = EXIFOrientation.getExifOrientation(orientation);
-                return Optional.of(exifOrientation.name());
+                EXIFOrientationType exifOrientationType = EXIFOrientationType.getByType(orientation);
+                return Optional.of(exifOrientationType);
             } else {
-                return Optional.of(EXIFOrientation.AUTOROTATED.name());
+                return Optional.of(EXIFOrientationType.AUTOROTATED);
             }
         }
         return Optional.empty();
