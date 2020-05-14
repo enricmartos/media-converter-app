@@ -11,7 +11,4 @@ public class ResponseImage {
         return this.responseImageBytes;
     }
 
-    public void setResponseImageBytes(byte[] responseImageBytes) {
-        this.responseImageBytes = responseImageBytes;
-    }
 }

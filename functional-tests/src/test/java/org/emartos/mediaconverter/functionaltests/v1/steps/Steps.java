@@ -38,7 +38,7 @@ public class Steps {
     }
 
     @Given("^([^ ]+) is a client of the media-converter module$")
-    public void createClient(String clientReference) throws Throwable {
+    public void createClient(String clientReference) {
         MediaConverterClient mediaConverterClient = new MediaConverterClient(this.world.getMediaConverterEndpoint());
         this.world.addClient(clientReference, mediaConverterClient);
         this.world.setApiKey(clientReference, MEDIA_CONVERTER_API_KEY);

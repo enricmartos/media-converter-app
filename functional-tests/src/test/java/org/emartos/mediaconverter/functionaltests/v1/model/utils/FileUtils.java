@@ -21,13 +21,13 @@ public final class FileUtils {
         // Prevent instantiation
     }
 
-    public static StringBuilder getTmpFilename() {
+    private static StringBuilder getTmpFilename() {
         return new StringBuilder()
                 .append(ZonedDateTime.now().toInstant().toEpochMilli())
                 .append(ThreadLocalRandom.current().nextInt(RANDOM_UPPER_LIMIT));
     }
 
-    public static Optional<File> createFile(byte[] image) throws IOException {
+    public static Optional<File> createFile(byte[] image) {
         String inputPath = TMP_IMG_PATH + getTmpFilename();
         LOGGER.log(Level.INFO, "\"Start creating file with input path:" + inputPath);
 

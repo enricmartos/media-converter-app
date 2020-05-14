@@ -4,7 +4,6 @@ package org.emartos.mediaconverter.functionaltests.v1.model.request;
 import org.apache.commons.lang3.ArrayUtils;
 import org.emartos.mediaconverter.functionaltests.v1.model.utils.FileUtils;
 import org.emartos.mediaconverter.functionaltests.v1.random.ImageRandomizer;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.LinkedMultiValueMap;
@@ -12,7 +11,6 @@ import org.springframework.util.MultiValueMap;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Optional;
 
 abstract class ImageRequest implements MediaConverterRequest {
@@ -24,7 +22,7 @@ abstract class ImageRequest implements MediaConverterRequest {
 
     String originalImage;
 
-    MultiValueMap<String, Object> getBaseMultipartFormBody() throws IOException {
+    MultiValueMap<String, Object> getBaseMultipartFormBody() {
         Resource resource = null;
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         if (originalImage.equals(RANDOM_ORIGINAL_IMAGE)) {

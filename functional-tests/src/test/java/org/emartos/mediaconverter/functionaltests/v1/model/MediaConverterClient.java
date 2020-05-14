@@ -21,7 +21,7 @@ public class MediaConverterClient {
     private String mediaConverterEndpoint;
     private HttpHeaders headers;
     private MultiValueMap<String, Object> multipartFormBody;
-    ResponseEntity<Resource> response;
+    private ResponseEntity<Resource> response;
 
     public MediaConverterClient(String mediaConverterEndpoint) {
         this.mediaConverterEndpoint = mediaConverterEndpoint;
@@ -61,8 +61,10 @@ public class MediaConverterClient {
 
     public byte[] getResponseImage() {
         try {
-            InputStream inputStream = response.getBody().getInputStream();
-            return IOUtils.toByteArray(inputStream);
+            if (response.getBody() != null) {
+                InputStream inputStream = response.getBody().getInputStream();
+                return IOUtils.toByteArray(inputStream);
+            }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "IO Exception");
         }

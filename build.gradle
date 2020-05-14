@@ -38,8 +38,8 @@ subprojects {
 	apply plugin: 'pmd'
 	pmd {
 		toolVersion = pmdVersion
-		pmdMain.enabled = true
-		pmdTest.enabled= true
+		pmdMain.enabled = false
+		pmdTest.enabled= false
 	}
 	tasks.withType(Pmd){
 		reports{
