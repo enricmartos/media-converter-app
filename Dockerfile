@@ -33,7 +33,12 @@ RUN mkdir conf
 ENV CONF_DIR=/opt/conf
 WORKDIR $CONF_DIR
 COPY devresources/mediaconverter.properties $CONF_DIR
-WORKDIR /app
+WORKDIR /usr
+RUN mkdir app
+
+COPY . /usr/app
+WORKDIR /usr/app
+
 
 EXPOSE 8080
 #CMD [ "sh", "-c", "./gradlew build" ]
