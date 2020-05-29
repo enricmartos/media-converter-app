@@ -42,5 +42,6 @@ WORKDIR /usr/app
 
 EXPOSE 8080
 CMD [ "sh", "-c", "./gradlew build" ]
-CMD [ "sh", "-c", "java -Dserver.port=8080 -jar configuration-layer/build/libs/configuration-layer-0.0.1-SNAPSHOT.jar" ]
+#CMD [ "sh", "-c", "java -Dserver.port=8080 -jar configuration-layer/build/libs/configuration-layer-0.0.1-SNAPSHOT.jar" ]
+CMD [ "sh", "-c", "java -Dserver.port=$PORT -jar configuration-layer/build/libs/configuration-layer-0.0.1-SNAPSHOT.jar" ]
 #CMD [ "sh", "-c", "./gradlew bootRun" ]
