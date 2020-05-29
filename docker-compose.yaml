@@ -1,8 +1,14 @@
-version: '2.3'
+version: '3'
+
 services:
-  app:
+  java:
+    container_name: mediaconverter_java
     build:
-      context: ${PWD}
+      context: .
       dockerfile: Dockerfile
+#    restart: unless-stopped
     ports:
-      - 8086:8086
+      - "8080:8080"
+    volumes:
+      - .:/app:delegated
+    tty: true
