@@ -22,8 +22,8 @@ WORKDIR /app
 COPY --from=builder  /app/configuration-layer/build/libs/$ARTIFACT_NAME .
 EXPOSE 8080
 #ENTRYPOINT ["java","-jar", "user-rest-api-1.0.jar"]
-#CMD [ "sh", "-c", "java -Dserver.port=$PORT -jar configuration-layer-0.0.1-SNAPSHOT.jar" ]
-CMD [ "sh", "-c", "java -Dserver.port=8080 -jar configuration-layer-0.0.1-SNAPSHOT.jar" ]
+CMD [ "sh", "-c", "java -Dserver.port=$PORT -jar configuration-layer-0.0.1-SNAPSHOT.jar" ]
+#CMD [ "sh", "-c", "java -Dserver.port=8080 -jar configuration-layer-0.0.1-SNAPSHOT.jar" ]
 
 
 #FROM openjdk:8-slim-buster
