@@ -1,0 +1,12 @@
+FROM openjdk:8-slim-buster
+USER root
+RUN apt-get update && apt-get install -y imagemagick
+RUN apt-get update && apt-get install -y ffmpeg
+## Add server.props to the container in /opt/conf new dir
+WORKDIR /opt
+RUN mkdir conf
+ENV CONF_DIR=/opt/conf
+WORKDIR $CONF_DIR
+COPY devresources/mediaconverter.properties $CONF_DIR
+WORKDIR /app
+

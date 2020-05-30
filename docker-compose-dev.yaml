@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  java:
+    container_name: mediaconverter_java_dev
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app:delegated
+    tty: true

@@ -9,10 +9,11 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping("/documentation")
 public class GetDocumentationController {
+    private static final Logger LOGGER = Logger.getLogger(GetDocumentationController.class.getName());
 
     @GetMapping
     String serveSwaggerDocumentation() {
-        Logger.getLogger("Serving documentation");
+        LOGGER.info("Serving documentation!");
         return "documentation";
     }
 }

@@ -1,11 +1,12 @@
-#Multi-stage approach
-# FROM gradle:jdk8 as builder
-FROM gradle:5.6.3-jdk8 as builder
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
+# Multi-stage approach
+FROM gradle:6.0.1-jdk8 as builder
+USER root
+RUN mkdir /app
+WORKDIR /app
+COPY . .
 RUN gradle build
 
-FROM openjdk:8
+FROM openjdk:8-slim-buster
 USER root
 RUN apt-get update && apt-get install -y imagemagick
 RUN apt-get update && apt-get install -y ffmpeg
@@ -17,10 +18,8 @@ WORKDIR $CONF_DIR
 COPY devresources/mediaconverter.properties $CONF_DIR
 ENV ARTIFACT_NAME=configuration-layer-0.0.1-SNAPSHOT.jar
 ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=y
-WORKDIR /usr/app/
-#copy artifacts from one stage to the next
-COPY --from=builder  /home/gradle/src/configuration-layer/build/libs/$ARTIFACT_NAME .
-EXPOSE 8086
-#ENTRYPOINT ["java","-jar", "user-rest-api-1.0.jar"]
-CMD [ "sh", "-c", "java -Dserver.port=8086 -jar configuration-layer-0.0.1-SNAPSHOT.jar " ]
-# ENTRYPOINT ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005","-jar", "configuration-layer-0.0.1-SNAPSHOT.jar"]
+WORKDIR /app/
+# Copy artifacts from one stage to the next
+COPY --from=builder  /app/configuration-layer/build/libs/$ARTIFACT_NAME .
+EXPOSE 8080
+CMD [ "sh", "-c", "java -Dserver.port=8080 -jar configuration-layer-0.0.1-SNAPSHOT.jar " ]
