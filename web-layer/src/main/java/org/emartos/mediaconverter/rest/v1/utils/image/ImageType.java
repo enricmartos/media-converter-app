@@ -1,5 +1,7 @@
 package org.emartos.mediaconverter.rest.v1.utils.image;
 
+import java.util.Arrays;
+
 public enum ImageType {
 
     JPG(new byte[]{-1, -40, -1}),
@@ -13,21 +15,13 @@ public enum ImageType {
     }
 
     static boolean isImage(byte [] content) {
+        byte[] imageHeader = new byte[] {content[0], content[1], content[2] };
         for(ImageType imageType : ImageType.values()) {
-            if(sameFirstOctects(content, imageType.header)){
+            if(Arrays.equals(imageHeader, imageType.header)){
                 return true;
             }
         }
         return false;
-    }
-
-    private static boolean sameFirstOctects(byte[] arrayOriginal, byte[] arrayTarget) {
-        for (int i = 0; i < arrayTarget.length; i++) {
-            if (arrayOriginal[i] != arrayTarget[i]) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }
