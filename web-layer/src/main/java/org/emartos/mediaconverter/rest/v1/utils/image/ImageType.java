@@ -6,7 +6,7 @@ public enum ImageType {
 
     JPG(new byte[]{-1, -40, -1}),
     BMP(new byte[]{66, 77}),
-    PNG(new byte[]{-119, 80, 78, 71, 13, 10, 26, 10});
+    PNG(new byte[]{-119, 80, 78});
 
     private byte[] header;
 
